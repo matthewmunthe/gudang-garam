@@ -1,7 +1,7 @@
-import express from 'express';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import { db } from '../models/db';
+import express from "express";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import { db } from "../models/db";
 
 const router = express.Router();
 
@@ -9,10 +9,9 @@ const router = express.Router();
 router.post("/login", async (req: any, res: any) => {
     
     const { username, password } = req.body;
-    console.log(req.body.password);
     const storedHashedPassword = await db.query("SELECT password FROM users WHERE username=$1", [username]);
-    console.log(storedHashedPassword.rows[0].password);
 
+    // Check whether inputted password and hashed password matched
     const isPasswordMatched = await bcrypt.compare(req.body.password,storedHashedPassword.rows[0].password);
     if (isPasswordMatched) {
         const result = await db.query("SELECT * FROM users WHERE username=$1 AND password=$2", [username, storedHashedPassword.rows[0].password]);

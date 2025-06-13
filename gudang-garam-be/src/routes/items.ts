@@ -1,15 +1,14 @@
-import express from 'express';
-import { db } from '../models/db';
-import { authorizeRoles } from '../middlware/auth'
+import express from "express";
+import { db } from "../models/db";
+import { authorizeRoles } from "../middlware/auth";
 
 const router = express.Router();
 
 // GET all items
 router.get("/", async (_, res) => {
     try {
-        const result = await db.query("SELECT * FROM items");
+        const result = await db.query("SELECT * FROM items ORDER BY id ASC");
         res.json(result.rows);
-        res.json({message: "All items fetched"})
     } catch (error) {
         console.error("Error fetching items:", error);
         res
@@ -36,7 +35,7 @@ router.post("/", authorizeRoles("admin", "staff"), async (req: any, res: any) =>
 router.put("/:id", authorizeRoles("admin"), async (req: any, res : any) => {
     try {
         const { name, quantity, description } = req.body;
-        await db.query("UPDATE items SET name=$1, quantity=$2, description=$3 WHERE id=$4", [name, quantity, description, req.params.id]);
+        await db.query("UPDATE items SET name=$1, quantity=$2, description=$3, updated_at=DEFAULT WHERE id=$4", [name, quantity, description, req.params.id]);
         res.json({ message: 'Item updated' });
     } catch (error) {
         console.error("Error updating item:", error);
