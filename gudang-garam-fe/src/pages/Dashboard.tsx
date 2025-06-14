@@ -34,8 +34,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div className={"dashboard-container"}>
       <button
+        style={{
+          backgroundColor: "red",
+          color: "white",
+        }}
         onClick={() => {
           localStorage.removeItem("token");
           navigate("/");
@@ -43,23 +47,42 @@ const Dashboard = () => {
       >
         Sign Out
       </button>
-      <h2>Item List</h2>
+      <h1>Gudang Garam</h1>
       {role !== "guest" && (
         <button onClick={() => navigate("/edit/new")}>Add Item</button>
       )}
-      <ul>
-        {items.map((item: any) => (
-          <li key={item.id}>
-            {item.name} – {item.quantity}
+      {items.map((item: any) => (
+        <ul className={"item-container"} key={item.id}>
+          <div className={"text-container"}>
+            <span>
+              <b>{item.name}</b> – {item.quantity}
+            </span>
+            <span>{item.description}</span>
+          </div>
+          <div className={"button-container"}>
             {role === "admin" && (
-              <button onClick={() => navigate(`/edit/${item.id}`)}>Edit</button>
+              <button
+                style={{ margin: "0.5em" }}
+                onClick={() => navigate(`/edit/${item.id}`)}
+              >
+                Edit
+              </button>
             )}
             {role === "admin" && (
-              <button onClick={() => deleteItem(item.id)}>Delete</button>
+              <button
+                style={{
+                  margin: "0.5em",
+                  backgroundColor: "red",
+                  color: "white",
+                }}
+                onClick={() => deleteItem(item.id)}
+              >
+                Delete
+              </button>
             )}
-          </li>
-        ))}
-      </ul>
+          </div>
+        </ul>
+      ))}
     </div>
   );
 };

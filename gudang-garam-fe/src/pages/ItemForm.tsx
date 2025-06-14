@@ -34,7 +34,7 @@ const ItemForm = () => {
 
   return (
     <div>
-      <h2>{isNew ? "Create" : "Edit"} Item</h2>
+      <h1>{isNew ? "Create" : "Edit"} Item</h1>
       <input
         value={item.name}
         onChange={(e) => setItem({ ...item, name: e.target.value })}
@@ -47,11 +47,22 @@ const ItemForm = () => {
         placeholder="Quantity"
       />
       <textarea
+        style={{ width: "20em", height: "5em" }}
         value={item.description}
         onChange={(e) => setItem({ ...item, description: e.target.value })}
         placeholder="Description"
       />
       <button onClick={saveItem}>Save</button>
+      <button
+        style={{
+          backgroundColor: "transparent",
+          border: "2px solid #014282",
+          color: "#B92025",
+        }}
+        onClick={() => navigate("/dashboard")}
+      >
+        Cancel
+      </button>
     </div>
   );
 };
