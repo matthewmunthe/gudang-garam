@@ -28,7 +28,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div style={{height: "100vh"}}>
+    <div style={{ height: "100vh" }}>
       <h1>LOGIN</h1>
       <input
         value={username}
